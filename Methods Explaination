@@ -1,0 +1,134 @@
+Utility Methods
+These methods provide core functionalities like input handling, encryption, hashing, file operations, and database management.
+
+print(String toPrint)
+
+Purpose: Prints a string to the console without a newline.
+How to Use: Call with a string parameter: print("Hello");
+println(String toPrint)
+
+Purpose: Prints a string to the console followed by a newline.
+How to Use: Call with a string parameter: println("Hello");
+inputString(String toPrint)
+
+Purpose: Prompts the user for a string input. Handles cases where the input might be empty or invalid.
+How to Use: String result = inputString("Enter your name: ");
+inputYN(String toPrint)
+
+Purpose: Prompts the user for a yes (y) or no (n) response.
+How to Use: boolean confirmed = inputYN("Do you agree? (y/n): ");
+inputDouble(String toPrint)
+
+Purpose: Prompts the user for a double input, validates, and allows the option to leave it empty.
+How to Use: double value = inputDouble("Enter a number: ");
+inputInt(String toPrint)
+
+Purpose: Prompts the user for an integer input and validates it.
+How to Use: int number = inputInt("Enter an integer: ");
+hashThreeTimes(String input, String additionalChr)
+
+Purpose: Hashes a string three times with SHA-512 and appends additional characters.
+How to Use: String hashed = hashThreeTimes("myPassword", "key123");
+encrypt(String plainText, String key)
+
+Purpose: Encrypts a plaintext string using AES encryption with a 16-character key.
+How to Use: String encrypted = encrypt("SensitiveData", "16CharKeyHere");
+decrypt(String encryptedText, String key)
+
+Purpose: Decrypts an AES-encrypted string using the same 16-character key.
+How to Use: String decrypted = decrypt(encryptedText, "16CharKeyHere");
+getMacAddressOrDefault()
+
+Purpose: Retrieves the MAC address of the system or returns a default value if unavailable.
+How to Use: String mac = getMacAddressOrDefault();
+initializeGlobalKey()
+
+Purpose: Initializes the globalKey variable using the system's MAC address.
+How to Use: Call once during initialization: initializeGlobalKey();
+User Account Management
+These methods handle creating, deleting, and authenticating users.
+
+createNewUser()
+
+Purpose: Allows the user to create a new account by setting a username and password. Saves data to the database file.
+How to Use: createNewUser();
+deleteUser()
+
+Purpose: Deletes a user after verifying their username and password.
+How to Use: deleteUser();
+checkLogIn()
+
+Purpose: Checks login credentials (username and password) against the stored database. Allows three attempts.
+How to Use: boolean success = checkLogIn();
+File Handling
+These methods manage saving and reading the user database from a file.
+
+saveToFile(String content, String relativePath)
+
+Purpose: Saves a string to a file at the specified path.
+How to Use: saveToFile("data to save", "filename.txt");
+createTxtFile(String relativePath)
+
+Purpose: Creates a new file at the specified path.
+How to Use: boolean created = createTxtFile("newfile.txt");
+checkFileExist(String relativePath)
+
+Purpose: Checks whether a file exists at the specified path.
+How to Use: boolean exists = checkFileExist("database.txt");
+readFileIncAll(String relativePath)
+
+Purpose: Reads the entire content of a file into a string.
+How to Use: String content = readFileIncAll("file.txt");
+Database Conversion
+These methods convert between JSON strings and Java maps for user data storage.
+
+mapToString(Map<Integer, Map<String, String>> map)
+
+Purpose: Converts a map into a JSON string.
+How to Use: String jsonString = mapToString(loginDatabase);
+stringToMap(String str)
+
+Purpose: Converts a JSON string back into a map.
+How to Use: Map<Integer, Map<String, String>> map = stringToMap(jsonString);
+saveDatabaseToFile(String filePath)
+
+Purpose: Converts the loginDatabase to a JSON string and saves it to a file.
+How to Use: saveDatabaseToFile("userDatabase.txt");
+loadDatabaseFromFile(String filePath)
+
+Purpose: Reads a JSON file and loads it into the loginDatabase.
+How to Use: loadDatabaseFromFile("userDatabase.txt");
+Main Functionalities
+These methods control the primary flow of the application.
+
+loginPortal()
+
+Purpose: Entry point for user interactions like login, account creation, and deletion.
+How to Use: Call at the start of the application: loginPortal();
+main(String[] args)
+
+Purpose: Sets up the environment, loads the database, and starts the application.
+How to Use: Run the program: java Main.
+Implementation Guidelines
+Initialization:
+
+Call initializeGlobalKey() in main() to set the globalKey based on the system's MAC address.
+File Handling:
+
+Use loadDatabaseFromFile("path") to load existing users into the database.
+Use saveDatabaseToFile("path") to persist user data after any changes.
+User Interaction:
+
+Use loginPortal() to provide the main menu for user actions.
+Account Management:
+
+createNewUser() for adding accounts.
+deleteUser() for removing accounts.
+checkLogIn() to authenticate users.
+Encryption:
+
+Use hashThreeTimes() for secure username/password storage.
+Use encrypt() and decrypt() for data protection if necessary.
+Customization:
+
+Add functionality after login by extending the code inside loginPortal() when the user is logged in (loggedInStatus).
