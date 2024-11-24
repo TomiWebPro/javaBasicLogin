@@ -1,0 +1,44 @@
+1. Security Concerns
+1.1 Hashing Algorithm
+Problem: You're using SHA-512 with manual iterations and concatenation. This approach is insecure because it's predictable and lacks a salt, making it vulnerable to precomputed attacks (rainbow tables).
+Solution: Use a well-tested key derivation function such as PBKDF2, bcrypt, or Argon2. These algorithms include salting and iterative hashing, making them more secure.
+1.2 AES Key Size
+Problem: The AES encryption key length (UTF-8 bytes from string) may not match the required 128/192/256-bit sizes exactly.
+Solution: Ensure the key length matches the required size. Use a proper key derivation mechanism such as PBKDF2 to generate AES keys securely from passwords.
+1.3 Storing Plaintext Passwords
+Problem: The plaintext password is confirmed and shown in the prompt, compromising security.
+Solution: Use a secure password input mechanism (e.g., Console.readPassword()), which does not echo the password to the console.
+2. Input Handling
+2.1 Single Scanner Instance
+Problem: Multiple Scanner instances are created for user input. This is redundant and can cause resource leaks.
+Solution: Create a single Scanner instance and reuse it throughout the program.
+2.2 Input Validation
+Problem: Input validation is scattered and inconsistent across methods.
+Solution: Refactor input validation logic into utility functions to reduce redundancy.
+3. File Handling
+3.1 File Path Handling
+Problem: File paths are hardcoded (e.g., "userDatabase.txt"), which is platform-dependent.
+Solution: Use a configuration or environment-based approach to manage file paths.
+3.2 Error Handling
+Problem: Errors in file operations (e.g., readFileIncAll) are logged but not propagated. This can leave the program in an undefined state.
+Solution: Add proper error handling or recovery mechanisms to gracefully handle file-related exceptions.
+4. Serialization and Database Handling
+4.1 Inefficient Serialization
+Problem: Every update to the database triggers file I/O (e.g., saveDatabaseToFile), which can be inefficient for frequent operations.
+Solution: Use buffered or batched updates to reduce frequent file writes. Alternatively, consider using an embedded database like SQLite for better performance and scalability.
+4.2 Gson Serialization
+Problem: The Gson library is used for serialization/deserialization, but no error handling is implemented for malformed data.
+Solution: Add error handling during deserialization to ensure corrupted data doesn't crash the program.
+5. Logging
+Problem: Errors and information are logged using println and System.err. This is not ideal for production-grade applications.
+Solution: Use a proper logging framework like java.util.logging or SLF4J for structured and configurable logging.
+6. Code Organization
+6.1 Large Methods
+Problem: Some methods (e.g., createNewUser, deleteUser, and loginPortal) are large and perform multiple tasks.
+Solution: Break these methods into smaller, single-responsibility functions to improve readability and maintainability.
+6.2 Repetitive Logic
+Problem: The hashing logic is duplicated across methods (e.g., hashThreeTimes is repeatedly called).
+Solution: Abstract common logic into reusable utility methods.
+6.3 Global Variables
+Problem: The use of the global loginDatabase and globalKey introduces tight coupling and risks data inconsistency.
+Solution: Encapsulate state management within classes or services to improve modularity.
